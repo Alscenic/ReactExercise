@@ -2,7 +2,7 @@ import React from 'react';
 import './App.css';
 import Header from './Header';
 
-class App extends React.Component
+export default class App extends React.Component
 {
   render()
   {
@@ -13,5 +13,3 @@ class App extends React.Component
     );
   }
 }
-
-export default App;
