@@ -1,8 +1,9 @@
-import React, { Component } from 'react';
+import React from 'react';
 import logo from './logo.svg';
 import './App.css';
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-class AppHeader extends Component
+class Header extends React.Component
 {
     render()
     {
@@ -17,4 +18,4 @@ class AppHeader extends Component
     }
 }
 
-export default AppHeader;
+export default Header;

@@ -48,10 +48,14 @@ html
 a
 {
   text-decoration: none;
-  color: rgba(var(--color-text-normal), 1)
+  color: rgba(var(--color-text-normal), 1);
+  outline-color: black;
+  outline: 0px solid rgba(var(--color-text-normal), 1);
+  transition: outline-width 0.1s ease-in-out;
 }
 
-a:active
+a:focus,
+a:hover
 {
-  text-decoration-line: underline;
+  outline-width: 4px;
 }
