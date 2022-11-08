@@ -1,3 +1,7 @@
+/*
+// VARS
+*/
+
 html
 {
   --color-background-app: 255, 255, 255;
@@ -14,7 +18,23 @@ html
   --anim-time-fast: 0.1s;
   --ease-in-general: ease-in-out;
   --ease-out-circular: cubic-bezier(0.075, 0.82, 0.165, 1);
+  /*
+  // redefine this variable in any element - it gets applied
+  // to the animation it's used in, but only for the element!
+  // ez way to customize animations for example
+  // pros:
+  // ✓ can be inherited
+  // ✓ can be animated
+  // ✓ can be used like a "function parameter" for animations
+  // cons:
+  // ⨯ ???
+  */
+  --anim-scalePulse-transform-max: scaleX(1.05) scaleY(1.05);
 }
+
+/*
+// ANIMATIONS
+*/
 
 @keyframes createExpand
 {
@@ -28,6 +48,23 @@ html
     transform: scaleY(1.0);
   }
 }
+
+@keyframes scalePulse
+{
+  from
+  {
+    transform: scaleX(1) scaleY(1);
+  }
+
+  to
+  {
+    transform: var(--anim-scalePulse-transform-max)
+  }
+}
+
+/*
+// BASICS & LOW-PRIORITY
+*/
 
 /*
   I want to define everything myself, so
@@ -66,6 +103,10 @@ h1:last-child
   margin-bottom: 0;
 }
 
+/*
+// APP
+*/
+
 .app-container
 {
   min-height: 100vh;
@@ -75,8 +116,7 @@ h1:last-child
 .app
 {
   /*
-    fancy rgba(var,1) trick - lets you set the opacity of a var() color
-    (see color var "--color-x-y")
+    rgba(var(--var),1) trick - lets you set the opacity of a var(--var) color
   */
   background: rgba(var(--color-background-app), 1);
   font-size: var(--font-size-normal);
@@ -84,6 +124,10 @@ h1:last-child
   margin: 0 auto;
   margin-top: var(--theme-margin);
 }
+
+/*
+// HEADER
+*/
 
 .app-header
 {
@@ -107,6 +151,10 @@ h1:last-child
 {
   margin: auto 0 auto 0.5em;
 }
+
+/*
+// BUTTONS
+*/
 
 .focusable,
 .button,
@@ -156,35 +204,6 @@ a:hover,
   outline-offset: var(--theme-margin-thinner);
 }
 
-.crud-user,
-.create-user
-{
-  padding: var(--theme-margin);
-  border: 1px solid rgba(var(--color-text-normal), 1);
-  overflow: hidden;
-  animation: createExpand 0.4s var(--ease-out-circular);
-}
-
-.create-user
-{
-  width: calc(50% - var(--theme-margin));
-  display: flex;
-}
-
-.create-user > *
-{
-  font-size: 1.5rem;
-  margin: auto 0;
-  height: 1em;
-  line-height: 1em;
-}
-
-.create-user > *:not(:first-child),
-.crud-user > *:not(:first-child)
-{
-  margin-left: var(--theme-margin);
-}
-
 .icon-button > *
 {
   font-size: 1rem;
@@ -200,6 +219,41 @@ a:hover,
   text-align: center;
   display: inline-block;
   border: 2px solid rgba(var(--color-text-normal), 1);
+}
+
+/*
+// USER COMPONENTS
+*/
+
+.crud-user,
+.create-user
+{
+  padding: var(--theme-margin);
+  border: 1px solid rgba(var(--color-text-normal), 1);
+  overflow: hidden;
+  animation: createExpand 0.4s var(--ease-out-circular);
+}
+
+.create-user
+{
+  width: calc(50% - var(--theme-margin));
+  display: flex;
+  animation: none;
+  transition: none;
+}
+
+.create-user > *:not(.icon-button)
+{
+  font-size: 1.5rem;
+  margin: auto 0;
+  height: 1em;
+  line-height: 1em;
+}
+
+.create-user > *:not(:first-child),
+.crud-user > *:not(:first-child)
+{
+  margin-left: var(--theme-margin);
 }
 
 .create-text
@@ -275,6 +329,10 @@ a:hover,
   transform: translateX(0%) rotate(0deg) scale(1);
 }
 
+/*
+// MODAL
+*/
+
 .modal-background
 {
   position: fixed;
@@ -288,11 +346,21 @@ a:hover,
   position: fixed;
   background: rgba(var(--color-background-app), 1);
   width: calc(var(--app-width-desktop) * 0.7);
-  height: calc(var(--app-width-desktop) * 0.5);
   top: 50%;
   left: 50%;
+  /* classic transform hack */
   transform: translate(-50%, -50%);
   padding: var(--theme-margin-thick);
+}
+
+.modal-outline
+{
+  pointer-events: none;
+  position: absolute;
+  inset: 0;
+  outline: solid rgba(var(--color-background-header), 1);
+  --anim-scalePulse-transform-max: scaleX(1.025) scaleY(1.06);
+  animation: scalePulse 1s infinite alternate ease-in-out;
 }
 
 .modal > h1
@@ -300,22 +368,12 @@ a:hover,
   text-align: center;
 }
 
-.modal.new-user > *:not(:first-child)
+.modal.new-user > *:not(:first-child):not(.modal-outline)
 {
   margin-top: var(--theme-margin-thick);
 }
 
-.block
-{
-  display: block;
-}
-
-.expand-width
-{
-  width: 100%;
-}
-
-.text-input
+.modal .text-input
 {
   border-bottom: 1px solid rgba(var(--color-text-normal), 1);
   flex: 1;
@@ -329,13 +387,16 @@ a:hover,
 
 .modal .input-area label
 {
+  pointer-events: none;
   background: rgba(var(--color-background-app), 1);
   z-index: 1;
   position: absolute;
   padding: 0 var(--theme-margin-thin);
   padding-top: 1em;
   top: -1em;
-  transition: padding-top var(--anim-time-fast) var(--ease-in-general);
+  /* I usually don't transition "all" but it works for this lil project */
+  transition: all var(--anim-time-fast) var(--ease-in-general);
+  color: rgba(var(--color-text-normal), 0.5);
 }
 
 .text-input:focus ~ label,
@@ -343,6 +404,21 @@ a:hover,
 input:not(:placeholder-shown).text-input ~ label
 {
   padding-top: 0em;
+  color: rgba(var(--color-text-normal), 1);
+}
+
+/*
+// GENERIC
+*/
+
+.block
+{
+  display: block;
+}
+
+.expand-width
+{
+  width: 100%;
 }
 
 .flex

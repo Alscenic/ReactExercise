@@ -32,10 +32,12 @@ export class Component extends React.Component<Props, State>
       <div className="modal-background">
         <div className="modal new-user">
           <h1>Create New User</h1>
+          {/* name input */}
           <div className="input-area">
             <input ref={this.state.nameRef} type="text" placeholder=" " className="text-input expand-width block" />
             <label>Name</label>
           </div>
+          {/* email input */}
           <div className="input-area">
             <input ref={this.state.emailRef} type="text" placeholder=" " className="text-input expand-width block" />
             <label>Email</label>
@@ -54,6 +56,7 @@ export class Component extends React.Component<Props, State>
               <Icon pack="far" icon="times" /> Cancel</button>
             <div className="flex-expand"></div>
           </div>
+          <div className="modal-outline"></div>
         </div>
       </div>
     );
