@@ -318,7 +318,7 @@ a:hover,
   flex-direction: column;
   user-select: none;
   justify-content: space-between;
-  transform: translateX(200%) rotate(90deg) scale(0);
+  transform: translateX(200%);
   transition: transform var(--anim-time-fast) var(--ease-in-general);
 }
 
@@ -326,7 +326,7 @@ a:hover,
 .crud-user-buttons:has(:focus),
 .crud-user:hover .crud-user-buttons
 {
-  transform: translateX(0%) rotate(0deg) scale(1);
+  transform: translateX(0%);
 }
 
 /*
