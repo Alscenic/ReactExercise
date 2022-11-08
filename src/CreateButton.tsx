@@ -32,19 +32,41 @@ export default class CreateButton extends React.Component<Props, State>
         <CreateUserModal.Component onSubmit={
           (result) =>
           {
-            switch (result)
+            (async () =>
             {
-              case CreateUserModal.ModalResult.Submit:
-                this.props.createUser(new User({
-                  name: this.modalRef.current?.nameRef.current?.value,
-                  email: this.modalRef.current?.emailRef.current?.value
-                }));
-                break;
-              case CreateUserModal.ModalResult.Cancel:
-                break;
-            }
+              switch (result)
+              {
+                case CreateUserModal.ModalResult.Submit:
+                  const name = this.modalRef.current?.nameRef.current?.value ?? "";
+                  const email = this.modalRef.current?.emailRef.current?.value ?? "";
 
-            this.setState({ modalOpen: false });
+                  if (name == "" || email == "")
+                  {
+                    return;
+                  }
+
+                  const response = await fetch("https://reqres.in/api/users", { method: "post", body: JSON.stringify({ name: name, email: email }) });
+                  const json = await response.json();
+                  if (response.ok)
+                  {
+                    this.props.createUser(new User({
+                      name: name,
+                      email: email
+                    }));
+                  }
+                  else
+                  {
+                    alert("There was an error applying this new user.");
+                    return;
+                  }
+
+                  break;
+                case CreateUserModal.ModalResult.Cancel:
+                  break;
+              }
+
+              this.setState({ modalOpen: false });
+            })();
           }
         } ref={this.modalRef} />
       )

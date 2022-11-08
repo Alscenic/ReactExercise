@@ -231,6 +231,7 @@ a:hover,
   padding: var(--theme-margin);
   border: 1px solid rgba(var(--color-text-normal), 1);
   overflow: hidden;
+  position: relative;
   animation: createExpand 0.4s var(--ease-out-circular);
 }
 
@@ -283,14 +284,25 @@ a:hover,
 
 .crud-user-avatar
 {
+  position: relative;
   width: 2.4em;
   height: 2.4em;
 }
 
-.crud-user-avatar > img
+.crud-user-avatar > img,
+.crud-user-avatar > svg
 {
   width: 100%;
   height: 100%;
+}
+
+.crud-user-avatar > svg
+{
+  position: relative;
+  font-size: 2.5rem;
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%, -50%);
 }
 
 .crud-user-data
@@ -298,6 +310,8 @@ a:hover,
   display: flex;
   flex-direction: row;
   gap: var(--theme-margin);
+  position: relative;
+  transform: none;
 }
 
 .crud-user-fields
@@ -305,9 +319,20 @@ a:hover,
   flex: 1;
 }
 
+.crud-user-fields input
+{
+  text-decoration: underline;
+  width: 100%;
+}
+
 .crud-user-name
 {
   font-size: 2rem;
+}
+
+.crud-user-email
+{
+  font-size: 1rem;
 }
 
 .crud-user-buttons
@@ -337,6 +362,7 @@ a:hover,
   position: fixed;
   inset: -1px;
   background: rgba(0, 0, 0, 0.6);
+  z-index: 99;
 }
 
 .modal
@@ -350,6 +376,7 @@ a:hover,
   /* classic transform hack */
   transform: translate(-50%, -50%);
   padding: var(--theme-margin-thick);
+  z-index: 100;
 }
 
 .modal-outline

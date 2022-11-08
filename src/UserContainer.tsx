@@ -14,6 +14,7 @@ export default class UserContainer extends React.Component<Props, State>
 {
   userList: User[] = [];
   editId: number = -1;
+  // id (i++) of the last time we ran this.populateList()
   lastPop: number = 0;
 
   componentDidMount(): void
@@ -37,13 +38,22 @@ export default class UserContainer extends React.Component<Props, State>
         const json = await response.json();
         const usersResponse: UserResponse = Object.assign(new UserResponse(), json);
 
-        usersResponse.data?.forEach((user, i, arr) =>
+        if (usersResponse.data)
         {
-          if (thisPop === this.lastPop)
+          for (let i = 0; i < (usersResponse.data?.length ?? 0); i++)
           {
-            this.createUser(user);
+            const user = usersResponse.data[i];
+
+            if (thisPop === this.lastPop)
+            {
+              const sleep = await new Promise<void>(resolve =>
+              {
+                setTimeout(() => { resolve(); }, 20);
+              });
+              this.createUser(user);
+            }
           }
-        });
+        }
 
         return;
       });
@@ -59,7 +69,6 @@ export default class UserContainer extends React.Component<Props, State>
         if (thisPop === this.lastPop)
         {
           await addPage(i + 1);
-          console.log(Date.now().toFixed(0));
         }
       }
 
@@ -71,6 +80,10 @@ export default class UserContainer extends React.Component<Props, State>
   {
     this.userList = this.userList.concat(new User(user));
 
+    // I know you're supposed to use states, but this app
+    // doesn't really need to be stateful right now
+    //
+    // so I'm just updating the virtual DOM manually
     this.forceUpdate();
   }
 
@@ -126,6 +139,7 @@ export default class UserContainer extends React.Component<Props, State>
             key={i}
             User={user}
             NameInputRef={React.createRef<HTMLInputElement>()}
+            EmailInputRef={React.createRef<HTMLInputElement>()}
             Container={this}
           />
         );
