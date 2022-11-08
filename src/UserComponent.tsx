@@ -57,7 +57,7 @@ export default class UserComponent extends React.Component<Props>
           </div>
         </div>
         <div className="crud-user-buttons">
-          <button key={10} className="button icon-button" tabIndex={0} onClick={
+          <button key={10} className="icon-button" tabIndex={0} onClick={
             () =>
             {
               this.props.Container.selectUser(this.props.User);
@@ -65,7 +65,7 @@ export default class UserComponent extends React.Component<Props>
           }>
             <Icon key={10} icon="pen" />
           </button>
-          <button key={11} className="button icon-button" tabIndex={0} onClick={() => { deleteThisUser() }}>
+          <button key={11} className="icon-button" tabIndex={0} onClick={() => { deleteThisUser() }}>
             <Icon key={11} icon="trash" />
           </button>
         </div>
@@ -84,7 +84,7 @@ export default class UserComponent extends React.Component<Props>
           </div>
         </div>
         <div className="crud-user-buttons hold">
-          <button key={20} className="button icon-button" tabIndex={0} onClick={
+          <button key={20} className="icon-button" tabIndex={0} onClick={
             () =>
             {
               let user = this.props.User;
@@ -95,7 +95,7 @@ export default class UserComponent extends React.Component<Props>
           }>
             <Icon key={20} icon="check" />
           </button>
-          <button key={21} className="button icon-button" tabIndex={0} onClick={
+          <button key={21} className="icon-button" tabIndex={0} onClick={
             () =>
             {
               this.props.Container.selectUser(User.Null);

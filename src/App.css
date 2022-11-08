@@ -110,6 +110,7 @@ h1:last-child
 
 .focusable,
 .button,
+.icon-button,
 a,
 .text-input
 {
@@ -124,6 +125,7 @@ a
   color: rgba(var(--color-text-normal), 1);
 }
 
+.icon-button,
 .button
 {
   border: 2px solid rgba(var(--color-text-normal), 1);
@@ -133,23 +135,25 @@ a
   user-select: none;
 }
 
+button.button
+{
+  padding: var(--theme-margin-thin);
+  border-width: 1px;
+}
+
 .focusable:focus,
 .focusable:hover,
-a:focus,
 .button:focus,
 .button:hover,
+.icon-button:focus,
+.icon-button:hover,
+a:focus,
 a:hover,
 .text-input:focus,
 .text-input:hover
 {
   outline-width: var(--theme-margin-thinner);
   outline-offset: var(--theme-margin-thinner);
-}
-
-button.button
-{
-  padding: var(--theme-margin-thin);
-  border-width: 1px;
 }
 
 .crud-user,
