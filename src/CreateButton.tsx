@@ -10,7 +10,7 @@ export interface CreateUserCallback
 }
 
 export interface Props { createUser: CreateUserCallback }
-export interface State { user: User, modalOpen: boolean }
+export interface State { modalOpen: boolean }
 
 export default class CreateButton extends React.Component<Props, State>
 {
@@ -21,17 +21,8 @@ export default class CreateButton extends React.Component<Props, State>
     super(props);
 
     this.state = {
-      user: User.Null,
       modalOpen: false
     };
-  }
-
-  componentDidMount(): void
-  {
-    if (this.state.user != User.Null)
-    {
-      this.props.createUser(this.state.user);
-    }
   }
 
   render()
@@ -44,12 +35,16 @@ export default class CreateButton extends React.Component<Props, State>
             switch (result)
             {
               case CreateUserModal.ModalResult.Submit:
-
+                this.props.createUser(new User({
+                  name: this.modalRef.current?.nameRef.current?.value,
+                  email: this.modalRef.current?.emailRef.current?.value
+                }));
                 break;
               case CreateUserModal.ModalResult.Cancel:
-                this.setState({ modalOpen: false });
                 break;
             }
+
+            this.setState({ modalOpen: false });
           }
         } ref={this.modalRef} />
       )

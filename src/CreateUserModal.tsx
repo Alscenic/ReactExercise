@@ -13,17 +13,18 @@ export interface SubmitCallback
 }
 
 export interface Props { onSubmit: SubmitCallback }
-export interface State { nameRef: React.RefObject<HTMLInputElement>, emailRef: React.RefObject<HTMLInputElement> }
+export interface State { }
 
 export class Component extends React.Component<Props, State>
 {
+  nameRef: React.RefObject<HTMLInputElement>;
+  emailRef: React.RefObject<HTMLInputElement>;
+
   constructor(props: Props)
   {
     super(props);
-    this.state = {
-      nameRef: React.createRef(),
-      emailRef: React.createRef()
-    }
+    this.nameRef = React.createRef();
+    this.emailRef = React.createRef();
   }
 
   render()
@@ -34,12 +35,12 @@ export class Component extends React.Component<Props, State>
           <h1>Create New User</h1>
           {/* name input */}
           <div className="input-area">
-            <input ref={this.state.nameRef} type="text" placeholder=" " className="text-input expand-width block" />
+            <input ref={this.nameRef} type="text" placeholder=" " className="text-input expand-width block" />
             <label>Name</label>
           </div>
           {/* email input */}
           <div className="input-area">
-            <input ref={this.state.emailRef} type="text" placeholder=" " className="text-input expand-width block" />
+            <input ref={this.emailRef} type="text" placeholder=" " className="text-input expand-width block" />
             <label>Email</label>
           </div>
           <div className="flex">

@@ -132,9 +132,14 @@ export default class UserContainer extends React.Component<Props, State>
       }
     }
 
+    const createUserCallback = (user: User) =>
+    {
+      this.createUser(user);
+    }
+
     return (
       <>
-        <CreateButton createUser={this.createUser} />
+        <CreateButton createUser={createUserCallback} />
         <div style={{ height: "3rem" }}></div>
         <div className="users-container">
           {userComponents}
