@@ -7,9 +7,26 @@ html
   --color-text-normal: 0, 0, 0;
   --app-width-tolerance: 100px;
   --app-width-desktop: 1000px;
+  --theme-margin-thinner: 0.2rem;
   --theme-margin-thin: 0.4rem;
   --theme-margin: 0.8rem;
   --theme-margin-thick: 1.8rem;
+  --anim-time-fast: 0.1s;
+  --ease-in-general: ease-in-out;
+  --ease-out-circular: cubic-bezier(0.075, 0.82, 0.165, 1);
+}
+
+@keyframes createExpand
+{
+  from
+  {
+    transform: scaleY(0.1);
+  }
+
+  to
+  {
+    transform: scaleY(1.0);
+  }
 }
 
 /*
@@ -93,11 +110,11 @@ h1:last-child
 
 .focusable,
 .button,
-a
+a,
+.text-input
 {
-  transition: outline 0.1s ease-in-out;
+  transition: outline-width var(--anim-time-fast) var(--ease-in-general), outline-offset var(--anim-time-fast) var(--ease-in-general);
   outline: 0px solid rgba(var(--color-text-normal), 1);
-  outline-color: black;
   outline-offset: 0px;
 }
 
@@ -112,7 +129,6 @@ a
   border: 2px solid rgba(var(--color-text-normal), 1);
   outline: 0px solid rgba(var(--color-text-normal), 1);
   outline-offset: 0px;
-  transition: outline 0.1s ease-in-out;
   cursor: pointer;
   user-select: none;
 }
@@ -122,10 +138,12 @@ a
 a:focus,
 .button:focus,
 .button:hover,
-a:hover
+a:hover,
+.text-input:focus,
+.text-input:hover
 {
-  outline-width: 4px;
-  outline-offset: 4px;
+  outline-width: var(--theme-margin-thinner);
+  outline-offset: var(--theme-margin-thinner);
 }
 
 button.button
@@ -139,6 +157,8 @@ button.button
 {
   padding: var(--theme-margin);
   border: 1px solid rgba(var(--color-text-normal), 1);
+  overflow: hidden;
+  animation: createExpand 0.4s var(--ease-out-circular);
 }
 
 .create-user
@@ -235,20 +255,20 @@ button.button
 
 .crud-user-buttons
 {
-  display: none;
+  display: flex;
+  position: relative;
   flex-direction: column;
   user-select: none;
   justify-content: space-between;
+  transform: translateX(200%) rotate(90deg) scale(0);
+  transition: transform var(--anim-time-fast) var(--ease-in-general);
 }
 
-.crud-user-buttons.hold
-{
-  display: inherit;
-}
-
+.crud-user-buttons.hold,
+.crud-user-buttons:has(:focus),
 .crud-user:hover .crud-user-buttons
 {
-  display: flex;
+  transform: translateX(0%) rotate(0deg) scale(1);
 }
 
 .modal-background
@@ -295,16 +315,6 @@ button.button
 {
   border-bottom: 1px solid rgba(var(--color-text-normal), 1);
   flex: 1;
-  outline: 0px solid rgba(var(--color-text-normal), 1);
-  outline-offset: 0px;
-  transition: outline 0.1s ease-in-out;
-}
-
-.text-input:focus,
-.text-input:hover
-{
-  outline-width: 4px;
-  outline-offset: 4px;
 }
 
 .modal .input-area
@@ -321,7 +331,7 @@ button.button
   padding: 0 var(--theme-margin-thin);
   padding-top: 1em;
   top: -1em;
-  transition: padding-top 0.1s ease-in-out;
+  transition: padding-top var(--anim-time-fast) var(--ease-in-general);
 }
 
 .text-input:focus ~ label,

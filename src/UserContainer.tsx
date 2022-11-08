@@ -31,7 +31,7 @@ export default class UserContainer extends React.Component<Props, State>
     (async () =>
     {
       const thisPop = ++this.lastPop;
-      const addPage = async (page: number) =>
+      const addPage = (async (page: number) =>
       {
         const response = await fetch("https://reqres.in/api/users?page=" + page);
         const json = await response.json();
@@ -44,7 +44,9 @@ export default class UserContainer extends React.Component<Props, State>
             this.createUser(user);
           }
         });
-      }
+
+        return;
+      });
 
       this.clearUsers();
 
@@ -57,8 +59,11 @@ export default class UserContainer extends React.Component<Props, State>
         if (thisPop === this.lastPop)
         {
           await addPage(i + 1);
+          console.log(Date.now().toFixed(0));
         }
       }
+
+      return;
     })();
   }
 
